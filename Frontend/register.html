@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | MY STOCK</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <header>
+            <div class="brand">MY STOCK</div>
+            <h1>สร้างบัญชีใหม่</h1>
+        </header>
+
+        <form id="registerForm">
+            <div class="input-row">
+                <div class="input-field">
+                    <label>ชื่อ</label>
+                    <input type="text" id="FirstName" placeholder="ชื่อ" required>
+                </div>
+                <div class="input-field">
+                    <label>นามสกุล</label>
+                    <input type="text" id="LastName" placeholder="นามสกุล" required>
+                </div>
+            </div>
+
+            <div class="input-field">
+                <label>อีเมล</label>
+                <input type="email" id="email" placeholder="example@mystock.com" required>
+            </div>
+
+            <div class="input-field">
+                <label>รหัสผ่าน</label>
+                <input type="password" id="password" placeholder="อย่างน้อย 8 ตัวอักษร" required>
+                <div id="error" class="error-text">กรุณากรอกข้อมูลให้ครบถ้วน</div>
+            </div>
+
+            <button type="submit">สมัครสมาชิก</button>
+        </form>
+
+        <div class="separator"><span>หรือ</span></div>
+
+        <div class="register-hint">
+            มีบัญชีผู้ใช้แล้ว? <a href="index.html">เข้าสู่ระบบที่นี่</a>
+        </div>
+    </div>
+</div>
+
+<script src="register.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+// 1. ตรวจสอบ Login และดึงชื่อมาแสดง
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user) {
+    // ถ้าไม่ได้ Login ให้เด้งไปหน้า index
+    window.location.href = "index.html";
+} else {
+    // หาตัวที่มี id="username" แล้วเปลี่ยน Loading... เป็นชื่อจริง
+    const usernameElement = document.getElementById("username");
+    if (usernameElement) {
+        // ต้องมั่นใจว่าใน localStorage ของหนูใช้ชื่อตัวแปร FirstName และ LastName นะลูก
+        usernameElement.innerText = `${user.FirstName} ${user.LastName}`;
+    }
+}
+// 2. โหลดสินค้าเข้าตาราง
+async function loadProducts() {
+    try {
+        const res = await fetch("http://localhost:8000/products");
+        const products = await res.json();
+        const table = document.getElementById("fullProductTable");
+
+        if (!table) return; // กันพังถ้าหา element ไม่เจอ
+
+        table.innerHTML = products.map(p => {
+            // เช็คตัวแปรสต็อก เผื่อ Backend ส่งชื่อไม่เหมือนกัน
+            const currentStock = p.current_stock ?? p.Stock ?? 0;
+            const minStock = p.min_stock ?? p.MinStock ?? 0;
+            const productName = p.name ?? p.ProductName ?? 'ไม่มีชื่อสินค้า';
+            const category = p.category ?? p.Category ?? 'ทั่วไป';
+
+            return `
+                <tr>
+                    <td>#${p.id}</td>
+                    <td style="font-weight: 500; color: #333;">${productName}</td>
+                    <td>${p.sku || p.SKU || '-'}</td>
+                    <td>${category}</td>
+                    <td>
+                        <span class="stock-badge ${currentStock <= minStock ? 'stock-low' : 'stock-ok'}">
+                            ${Number(currentStock).toLocaleString()} ชิ้น
+                        </span>
+                    </td>
+                    <td>${Number(minStock).toLocaleString()}</td>
+                    <td style="text-align: center;">
+                        <div class="action-buttons">
+                            <button class="btn-edit" onclick="editProduct(${p.id})">แก้ไข</button>
+                            <button class="btn-delete" onclick="deleteProduct(${p.id})">ลบ</button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+    } catch (err) {
+        console.error("โหลดสินค้าไม่ได้จ้า:", err);
+    }
+}
+
+// 3. ฟังก์ชันลบสินค้า
+async function deleteProduct(id) {
+    if (confirm("จะลบชิ้นนี้จริงๆ ใช่ไหมลูก?")) {
+        try {
+            const res = await fetch(`http://localhost:8000/products/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                alert("ลบเรียบร้อย!");
+                loadProducts();
+            }
+        } catch (err) {
+            alert("ลบไม่สำเร็จจ้า");
+        }
+    }
+}
+
+// 4. Logout
+function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "index.html";
+}
+
+document.addEventListener("DOMContentLoaded", loadProducts);
+
+// แถม: ฟังก์ชันแก้ไข (เดี๋ยวเผื่อหนูทำหน้าแก้ไขต่อ)
+function editProduct(id) {
+    console.log("กำลังจะแก้ไข ID:", id);
+    // window.location.href = `edit-product.html?id=${id}`; 
+}

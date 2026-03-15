@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | MY STOCK</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="logo">MY STOCK</div>
+        <ul class="menu">
+            <li class="menu-title">Main Menu</li>
+            <li><a href="dashboard.html" class="active"><span>ภาพรวมระบบ</span></a></li>
+            <li><a href="products.html"><span>สินค้าทั้งหมด</span></a></li>
+            <li><a href="#"><span>สินค้าใกล้หมด</span></a></li>
+            
+            <li class="menu-title">Management</li>
+            <li><a href="add-product.html"><span>เพิ่มสินค้า</span></a></li>
+            <li><a href="#"><span>แก้ไขสินค้า</span></a></li>
+
+            <li class="menu-title">Warehouse</li>
+            <li><a href="#"><span>สินค้าเข้า-ออก</span></a></li>
+            <li><a href="#"><span>ประวัติการทำรายการ</span></a></li>
+
+            <li class="menu-title">Reports</li>
+            <li><a href="#"><span>รายงานรายวัน</span></a></li>
+            <li><a href="#"><span>รายงานรายเดือน</span></a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="page-title">
+                <h2>Dashboard</h2>
+            </div>
+            <div class="user-section">
+                <span id="username">Loading...</span>
+                <button onclick="logout()" class="btn-logout">Logout</button>
+            </div>
+        </header>
+
+        <section class="content">
+            <div class="section-header">
+                <h2 class="section-title">สรุปข้อมูลสต็อก</h2>
+            </div>
+
+            <div class="dashboard-cards">
+                <div class="stat-card">
+                    <h3>ผู้ใช้ในระบบ</h3>
+                    <p id="totalUsers">-</p>
+                </div>
+                <div class="stat-card highlight">
+                    <h3>รายการสินค้าทั้งหมด</h3>
+                    <p id="totalProducts">-</p>
+                </div>
+                <div class="stat-card">
+                    <h3>สินค้าที่ใกล้หมด</h3>
+                    <p id="lowStock" style="color: #ff4d4d;">-</p>
+                </div>
+            </div>
+
+
+        </section>
+    </main>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

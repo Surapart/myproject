@@ -1,0 +1,401 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap');
+
+/* --- [1] Reset & Global Settings --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Prompt', sans-serif;
+    background-color: #fff;
+    color: #444;
+    overflow-x: hidden; /* กันจอเลื่อนซ้ายขวา */
+    min-height: 100vh;
+}
+
+/* --- [2] Login & Register (Index & Register) --- */
+.login-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFE5EC; /* สีชมพูอ่อน */
+    padding: 20px;
+}
+
+.login-card {
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(251, 111, 146, 0.15);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.brand-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #FB6F92;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+h1 { font-size: 1.8rem; margin-bottom: 30px; }
+
+.input-field { text-align: left; margin-bottom: 20px; }
+.input-field label { display: block; font-size: 0.85rem; color: #888; margin-bottom: 8px; }
+
+input {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1.5px solid #f0f0f0;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus { border-color: #FB6F92; background-color: #fff; }
+
+button[type="submit"] {
+    width: 100%;
+    padding: 16px;
+    background-color: #FB6F92;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #FF8FAB;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(251, 111, 146, 0.2);
+}
+
+/* --- แก้ไขจุดคำว่า "หรือ" ติดกันเกินไป --- */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 35px 0; /* เพิ่มระยะห่างบน-ล่างให้ดูเก๋ */
+    color: #ccc;
+    font-size: 0.85rem;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #eee; /* เพิ่มเส้นขีดจางๆ นำสายตา */
+}
+
+.separator:not(:empty)::before {
+    margin-right: 15px; /* ระยะห่างจากคำว่า หรือ */
+}
+
+.separator:not(:empty)::after {
+    margin-left: 15px; /* ระยะห่างจากคำว่า หรือ */
+}
+
+.register-hint {
+    font-size: 0.9rem;
+    color: #999;
+}
+
+.register-hint a {
+    color: #FB6F92;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.error-text { color: #ff4d4d; font-size: 0.85rem; margin-top: 10px; display: none; }
+
+/* --- [3] Dashboard Layout (Dashboard) --- */
+.layout {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar: ล็อกตำแหน่งแต่ Scroll ข้างในได้ */
+.sidebar {
+    width: 280px;
+    background-color: #fff;
+    padding: 40px 20px;
+    border-right: 1px solid #f0f0f0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    overflow-y: auto; 
+}
+
+.sidebar .logo {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #FB6F92;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    padding-left: 15px;
+}
+
+.menu-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #ccc;
+    text-transform: uppercase;
+    margin: 25px 0 10px 15px;
+    letter-spacing: 1px;
+}
+
+.menu li { list-style: none; }
+.menu li a {
+    text-decoration: none;
+    color: #666;
+    padding: 12px 20px;
+    display: block;
+    border-radius: 12px;
+    margin-bottom: 5px;
+    transition: 0.3s;
+    font-size: 0.95rem;
+}
+
+.menu li a:hover, .menu li a.active {
+    background-color: #FFE5EC; /* สีชมพูอ่อนมาก */
+    color: #FB6F92;
+    font-weight: 500;
+}
+
+/* Main Content: ปล่อยให้ Scroll ตามปกติ */
+.main {
+    flex: 1;
+    margin-left: 280px; /* ดันออกจาก sidebar */
+    background-color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Topbar: จัดระเบียบ Dashboard กับ User Section */
+.topbar {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 1px solid #f9f9f9;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px); /* เพิ่มเอฟเฟกต์เบลอ */
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+.page-title {
+    font-size: 1.1rem;
+    color: #888;
+    font-weight: 400;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* เว้นระยะชื่อกับปุ่ม */
+}
+
+#username {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.btn-logout {
+    background-color: #FB6F92;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #FF8FAB;
+    transform: translateY(-1px);
+}
+
+/* --- [4] Dashboard Content --- */
+.content {
+    padding: 50px;
+    width: 100%;
+    flex: 1;
+    max-width: 1600px; /* คุมความกว้างจอใหญ่ */
+}
+
+.section-title { font-size: 1.8rem; margin-bottom: 40px; font-weight: 600; }
+
+/* Grid Cards: 3 ใบแนวนอนสวยๆ */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 100%;
+}
+
+.stat-card {
+    background: #fff;
+    padding: 45px 35px;
+    border-radius: 25px;
+    border: 1px solid #FFE5EC;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    border-color: #FFC2D1;
+    box-shadow: 0 15px 35px rgba(251, 111, 146, 0.08);
+}
+
+.stat-card h3 { font-size: 0.9rem; color: #aaa; margin-bottom: 15px; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; }
+.stat-card p { font-size: 3.2rem; font-weight: 600; color: #FB6F92; }
+
+/* Responsive สำหรับมือถือ */
+@media (max-width: 1200px) {
+    .dashboard-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    .sidebar { width: 70px; padding: 20px 10px; }
+    .sidebar .logo, .menu-title, .menu li a span { display: none; }
+    .main { margin-left: 70px; }
+    .topbar { padding: 0 20px; }
+    .dashboard-cards { grid-template-columns: 1fr; }
+    .content { padding: 30px 20px; }
+}
+/* ปุ่มเพิ่มสินค้าสีชมพูเข้ม */
+.btn-add {
+    background-color: #FB6F92;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-add:hover { background-color: #FF8FAB; transform: scale(1.05); }
+
+/* ปุ่มในตาราง */
+.btn-edit { color: #3498db; background: none; border: none; cursor: pointer; margin-right: 10px; font-weight: 600; }
+.btn-delete { color: #e74c3c; background: none; border: none; cursor: pointer; font-weight: 600; }
+
+.btn-edit:hover, .btn-delete:hover { text-decoration: underline; }
+/* --- [5] Table Styles (จัดการตารางไม่ให้เบียดกัน) --- */
+
+.product-table-wrapper {
+    background: #fff;
+    border-radius: 25px;
+    border: 1px solid #FFE5EC;
+    padding: 10px;
+    overflow: hidden; /* กันขอบตารางทะลุ radius */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+/* หัวตาราง (ID, ชื่อสินค้า, SKU...) */
+.product-table thead th {
+    padding: 20px;
+    background-color: #fff;
+    color: #FB6F92;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-bottom: 2px solid #FFE5EC;
+    white-space: nowrap; /* กันตัวหนังสือตัดบรรทัด */
+}
+
+/* เนื้อหาในตาราง */
+.product-table tbody td {
+    padding: 20px;
+    border-bottom: 1px solid #fcfcfc;
+    color: #555;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+/* เวลาเอาเมาส์ไปชี้แถว ให้ขึ้นสีชมพูอ่อนๆ */
+.product-table tbody tr:hover {
+    background-color: #FFF5F7;
+    transition: 0.2s;
+}
+
+/* Badge บอกสถานะสต็อก (วงกลมชมพูรอบตัวเลข) */
+.stock-badge {
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.stock-ok {
+    background-color: #E7FFFA;
+    color: #059669;
+}
+
+.stock-low {
+    background-color: #FFE5EC;
+    color: #FB6F92;
+}
+
+/* จัดกลุ่มปุ่มจัดการ (แก้ไข/ลบ) */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* แก้ไขปุ่มในตารางที่หนูเขียนมา ให้ดูแพงขึ้น */
+.btn-edit, .btn-delete {
+    padding: 8px 15px;
+    border-radius: 10px;
+    text-decoration: none !important; /* เอาเส้นใต้ที่หนูใส่มาออก */
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-edit {
+    background-color: #f0f7ff;
+    color: #3498db !important;
+}
+
+.btn-edit:hover {
+    background-color: #3498db;
+    color: white !important;
+}
+
+.btn-delete {
+    background-color: #fff0f0;
+    color: #e74c3c !important;
+}
+
+.btn-delete:hover {
+    background-color: #e74c3c;
+    color: white !important;
+}
