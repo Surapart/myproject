@@ -3,7 +3,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user) {
     // ถ้าไม่ได้ Login ให้เด้งไปหน้า index
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 } else {
     // หาตัวที่มี id="username" แล้วเปลี่ยน Loading... เป็นชื่อจริง
     const usernameElement = document.getElementById("username");
@@ -87,13 +87,13 @@ async function deleteProduct(id) {
 // 4. Logout
 function logout() {
     localStorage.removeItem("user");
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 }
 
 document.addEventListener("DOMContentLoaded", loadProducts);
 
 function editProduct(id) {
-    window.location.href = `edit-product.html?id=${id}`;
+    window.location.href = `../html/edit-product.html?id=${id}`;
 }
 function toggleUserMenu() {
     const dd = document.getElementById("userDropdown");

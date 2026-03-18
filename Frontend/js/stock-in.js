@@ -1,6 +1,6 @@
 const user = JSON.parse(localStorage.getItem("user"));
 if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 } else {
     const el = document.getElementById("username");
     if (el) el.innerText = `${user.FirstName} ${user.LastName}`;
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function logout() {
     localStorage.removeItem("user");
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 }
 function toggleUserMenu() {
     const dd = document.getElementById("userDropdown");

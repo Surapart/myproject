@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สินค้าใกล้หมด | MY STOCK</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Dashboard | MY STOCK</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
@@ -13,10 +13,10 @@
         <div class="logo">MY STOCK</div>
         <ul class="menu">
             <li class="menu-title">Main Menu</li>
-            <li><a href="dashboard.html"><span>ภาพรวมระบบ</span></a></li>
+            <li><a href="dashboard.html" class="active"><span>ภาพรวมระบบ</span></a></li>
             <li><a href="products.html"><span>สินค้าทั้งหมด</span></a></li>
-            <li><a href="lowstock.html" class="active"><span>สินค้าใกล้หมด</span></a></li>
-
+            <li><a href="lowstock.html"><span>สินค้าใกล้หมด</span></a></li>
+            
             <li class="menu-title">Management</li>
             <li><a href="add-product.html"><span>เพิ่มสินค้า</span></a></li>
             <li><a href="edit-product.html"><span>แก้ไขสินค้า</span></a></li>
@@ -26,15 +26,16 @@
             <li><a href="stock-out.html"><span>สินค้าออก</span></a></li>
             <li><a href="transactions.html"><span>ประวัติการทำรายการ</span></a></li>
 
-            <li class="menu-title">Reports</li>
-            <li><a href="#"><span>รายงานรายวัน</span></a></li>
-            <li><a href="#"><span>รายงานรายเดือน</span></a></li>
+            
+            <li><a href="report.html"><span>รายงาน</span></a></li>
         </ul>
     </aside>
 
     <main class="main">
         <header class="topbar">
-            <div class="page-title"><h2>สินค้าใกล้หมด</h2></div>
+            <div class="page-title">
+                <h2>Dashboard</h2>
+            </div>
             <div class="user-section">
                 <div class="user-pill" onclick="toggleUserMenu()" id="userPill">
                     <div class="user-pill-avatar" id="userAvatar">?</div>
@@ -55,31 +56,29 @@
 
         <section class="content">
             <div class="section-header">
-                <h2 class="section-title">สินค้าที่ต้องเติมสต็อก</h2>
+                <h2 class="section-title">สรุปข้อมูลสต็อก</h2>
             </div>
 
-            <div class="product-table-wrapper">
-                <table class="product-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>ชื่อสินค้า</th>
-                            <th>SKU</th>
-                            <th>หมวดหมู่</th>
-                            <th>คงเหลือ</th>
-                            <th>ขั้นต่ำ</th>
-                            <th>ขาด</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lowstockTable">
-                        <tr><td colspan="7" style="text-align:center; padding:40px; color:#ccc;">กำลังโหลดข้อมูล...</td></tr>
-                    </tbody>
-                </table>
+            <div class="dashboard-cards">
+                <div class="stat-card">
+                    <h3>ผู้ใช้ในระบบ</h3>
+                    <p id="totalUsers">-</p>
+                </div>
+                <div class="stat-card highlight">
+                    <h3>รายการสินค้าทั้งหมด</h3>
+                    <p id="totalProducts">-</p>
+                </div>
+                <div class="stat-card">
+                    <h3>สินค้าที่ใกล้หมด</h3>
+                    <p id="lowStock" style="color: #ff4d4d;">-</p>
+                </div>
             </div>
+
+
         </section>
     </main>
 </div>
 
-<script src="lowstock.js"></script>
+<script src="../js/dashboard.js"></script>
 </body>
 </html>

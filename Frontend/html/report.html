@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงาน | MY STOCK</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .report-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+        .report-tab {
+            padding: 10px 28px;
+            border-radius: 30px;
+            border: 2px solid #f0f0f0;
+            background: #fff;
+            font-size: 0.97rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #aaa;
+            transition: all 0.18s;
+            font-family: inherit;
+        }
+        .report-tab.active {
+            background: #FB6F92;
+            border-color: #FB6F92;
+            color: #fff;
+        }
+        .report-tab:hover:not(.active) {
+            border-color: #FB6F92;
+            color: #FB6F92;
+        }
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .filter-bar input, .filter-bar select {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid #f0f0f0;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: #333;
+            outline: none;
+            transition: border 0.18s;
+        }
+        .filter-bar input:focus, .filter-bar select:focus {
+            border-color: #FB6F92;
+        }
+        .filter-bar button {
+            padding: 10px 24px;
+            border-radius: 10px;
+            background: #FB6F92;
+            color: #fff;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.18s;
+        }
+        .filter-bar button:hover { background: #e05578; }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+        .summary-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 22px 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .summary-card h4 {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin: 0 0 8px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .summary-card .val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #333;
+        }
+        .summary-card.in  .val { color: #059669; }
+        .summary-card.out .val { color: #e74c3c; }
+        .summary-card.tx  .val { color: #FB6F92; }
+
+        .section-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #555;
+            margin-bottom: 14px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: #ccc;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="logo">MY STOCK</div>
+        <ul class="menu">
+            <li class="menu-title">Main Menu</li>
+            <li><a href="dashboard.html"><span>ภาพรวมระบบ</span></a></li>
+            <li><a href="products.html"><span>สินค้าทั้งหมด</span></a></li>
+            <li><a href="lowstock.html"><span>สินค้าใกล้หมด</span></a></li>
+
+            <li class="menu-title">Management</li>
+            <li><a href="add-product.html"><span>เพิ่มสินค้า</span></a></li>
+            <li><a href="edit-product.html"><span>แก้ไขสินค้า</span></a></li>
+
+            <li class="menu-title">Warehouse</li>
+            <li><a href="stock-in.html"><span>สินค้าเข้า</span></a></li>
+            <li><a href="stock-out.html"><span>สินค้าออก</span></a></li>
+            <li><a href="transactions.html"><span>ประวัติการทำรายการ</span></a></li>
+
+            
+            <li><a href="report.html" class="active"><span>รายงาน</span></a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="page-title"><h2>รายงาน</h2></div>
+            <div class="user-section">
+                <div class="user-pill" onclick="toggleUserMenu()" id="userPill">
+                    <div class="user-pill-avatar" id="userAvatar">?</div>
+                    <div class="user-pill-name" id="username">Loading...</div>
+                    <div class="user-pill-chev" id="userChev">▼</div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="ud-header">
+                            <div class="ud-name" id="udName">-</div>
+                            <div class="ud-email" id="udEmail">-</div>
+                        </div>
+                        <div class="ud-item" onclick="window.location.href='edit-user.html'">✎  แก้ไขข้อมูลส่วนตัว</div>
+                        <div class="ud-divider"></div>
+                        <div class="ud-item ud-logout" onclick="logout()">↩  ออกจากระบบ</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="content">
+            <div class="section-header">
+                <h2 class="section-title">รายงานสต็อกสินค้า</h2>
+            </div>
+
+            <!-- Tabs -->
+            <div class="report-tabs">
+                <button class="report-tab active" onclick="switchTab('daily')">รายวัน</button>
+                <button class="report-tab" onclick="switchTab('monthly')">รายเดือน</button>
+            </div>
+
+            <!-- Filter: Daily -->
+            <div id="filter-daily" class="filter-bar">
+                <input type="date" id="input-date">
+                <button onclick="loadReport()">ดูรายงาน</button>
+            </div>
+
+            <!-- Filter: Monthly -->
+            <div id="filter-monthly" class="filter-bar" style="display:none;">
+                <select id="input-month">
+                    <option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option>
+                    <option value="3">มีนาคม</option><option value="4">เมษายน</option>
+                    <option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option>
+                    <option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option>
+                    <option value="9">กันยายน</option><option value="10">ตุลาคม</option>
+                    <option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option>
+                </select>
+                <input type="number" id="input-month-year" placeholder="ปี (เช่น 2025)" min="2000" max="2100" style="width:160px;">
+                <button onclick="loadReport()">ดูรายงาน</button>
+            </div>
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card in">
+                    <h4>สินค้าเข้ารวม (IN)</h4>
+                    <div class="val" id="totalIn">-</div>
+                </div>
+                <div class="summary-card out">
+                    <h4>สินค้าออกรวม (OUT)</h4>
+                    <div class="val" id="totalOut">-</div>
+                </div>
+                <div class="summary-card tx">
+                    <h4>จำนวนรายการทั้งหมด</h4>
+                    <div class="val" id="totalTx">-</div>
+                </div>
+            </div>
+
+            <!-- By Product Table -->
+            <div class="section-label">รายละเอียดแยกตามสินค้า</div>
+            <div class="product-table-wrapper">
+                <table class="product-table">
+                    <thead id="productTableHead">
+                        <tr>
+                            <th>ชื่อสินค้า</th>
+                            <th>SKU</th>
+                            <th>IN</th>
+                            <th>OUT</th>
+                            <th>รายการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <tr><td colspan="5" class="empty-state">เลือกช่วงเวลาแล้วกด "ดูรายงาน"</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </main>
+</div>
+
+<script src="../js/report.js"></script>
+</body>
+</html>

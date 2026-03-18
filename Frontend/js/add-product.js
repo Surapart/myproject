@@ -1,6 +1,6 @@
 const user = JSON.parse(localStorage.getItem("user"));
 if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 } else {
     const el = document.getElementById("username");
     if (el) el.innerText = `${user.FirstName} ${user.LastName}`;
@@ -58,7 +58,7 @@ form.addEventListener("submit", async function(e) {
             return;
         }
         alert("เพิ่มสินค้าสำเร็จ!");
-        window.location.href = "products.html";
+        window.location.href = "../html/products.html";
     } catch (err) {
         errorBox.innerText = "ไม่สามารถเชื่อมต่อ Server";
         errorBox.style.display = "block";
@@ -67,7 +67,7 @@ form.addEventListener("submit", async function(e) {
 
 function logout() {
     localStorage.removeItem("user");
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 }
 
 document.addEventListener("DOMContentLoaded", loadCategories);

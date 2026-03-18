@@ -62,4 +62,16 @@ const deleteProduct = async (req, res) => {
     }
 };
 
-module.exports = { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct };
+// GET /products/low-stock
+const getLowStockProducts = async (req, res) => {
+    try {
+        const [rows] = await getConn().query(
+            'SELECT id, name, current_stock FROM products WHERE current_stock <= min_stock'
+        );
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ message: 'ดึงข้อมูลสินค้าใกล้หมดไม่สำเร็จ', error: error.message });
+    }
+};
+
+module.exports = { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct, getLowStockProducts };

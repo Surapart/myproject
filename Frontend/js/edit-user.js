@@ -1,7 +1,7 @@
 const API = 'http://localhost:8000';
 
 const user = JSON.parse(localStorage.getItem('user'));
-if (!user) window.location.href = 'index.html';
+if (!user) window.location.href = '../index.html';
 
 // Set topbar
 document.getElementById('username').textContent = `${user.FirstName} ${user.LastName}`;
@@ -70,7 +70,7 @@ async function saveEdit() {
 
 function logout() {
     localStorage.removeItem('user');
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
 }
 
 function toggleUserMenu() {

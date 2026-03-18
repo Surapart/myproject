@@ -36,7 +36,7 @@ form.addEventListener("submit", async function(e){
         }
 
         alert("สมัครสมาชิกสำเร็จ");
-        window.location.href="index.html";
+        window.location.href="../index.html";
 
     }catch(error){
 

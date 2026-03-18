@@ -1,7 +1,7 @@
 // 1. ตรวจสอบ Login และแสดงชื่อ
 const user = JSON.parse(localStorage.getItem("user"));
 if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 } else {
     const nameDisplay = document.getElementById("username");
     if (nameDisplay) {
@@ -72,7 +72,7 @@ async function loadDashboard() {
 // 3. Logout
 function logout() {
     localStorage.removeItem("user");
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 }
 
 document.addEventListener("DOMContentLoaded", loadDashboard);

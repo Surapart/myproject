@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | MY STOCK</title>
-    <link rel="stylesheet" href="style.css">
+    <title>สินค้าออก | MY STOCK</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
@@ -13,30 +13,27 @@
         <div class="logo">MY STOCK</div>
         <ul class="menu">
             <li class="menu-title">Main Menu</li>
-            <li><a href="dashboard.html" class="active"><span>ภาพรวมระบบ</span></a></li>
+            <li><a href="dashboard.html"><span>ภาพรวมระบบ</span></a></li>
             <li><a href="products.html"><span>สินค้าทั้งหมด</span></a></li>
             <li><a href="lowstock.html"><span>สินค้าใกล้หมด</span></a></li>
-            
+
             <li class="menu-title">Management</li>
             <li><a href="add-product.html"><span>เพิ่มสินค้า</span></a></li>
             <li><a href="edit-product.html"><span>แก้ไขสินค้า</span></a></li>
 
             <li class="menu-title">Warehouse</li>
             <li><a href="stock-in.html"><span>สินค้าเข้า</span></a></li>
-            <li><a href="stock-out.html"><span>สินค้าออก</span></a></li>
+            <li><a href="stock-out.html" class="active"><span>สินค้าออก</span></a></li>
             <li><a href="transactions.html"><span>ประวัติการทำรายการ</span></a></li>
 
-            <li class="menu-title">Reports</li>
-            <li><a href="#"><span>รายงานรายวัน</span></a></li>
-            <li><a href="#"><span>รายงานรายเดือน</span></a></li>
+            
+            <li><a href="report.html"><span>รายงาน</span></a></li>
         </ul>
     </aside>
 
     <main class="main">
         <header class="topbar">
-            <div class="page-title">
-                <h2>Dashboard</h2>
-            </div>
+            <div class="page-title"><h2>สินค้าออก</h2></div>
             <div class="user-section">
                 <div class="user-pill" onclick="toggleUserMenu()" id="userPill">
                     <div class="user-pill-avatar" id="userAvatar">?</div>
@@ -57,29 +54,33 @@
 
         <section class="content">
             <div class="section-header">
-                <h2 class="section-title">สรุปข้อมูลสต็อก</h2>
+                <h2 class="section-title">บันทึกสินค้าออก</h2>
             </div>
 
-            <div class="dashboard-cards">
-                <div class="stat-card">
-                    <h3>ผู้ใช้ในระบบ</h3>
-                    <p id="totalUsers">-</p>
+            <form id="stockOutForm">
+                <div class="login-card" style="max-width:500px; text-align:left;">
+                    <div class="input-field">
+                        <label>เลือกสินค้า</label>
+                        <select id="product_id">
+                            <option value="">-- เลือกสินค้า --</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <label>สต็อกปัจจุบัน</label>
+                        <input type="text" id="currentStockDisplay" placeholder="-" disabled style="background:#f9f9f9; color:#aaa;">
+                    </div>
+                    <div class="input-field">
+                        <label>จำนวนที่นำออก</label>
+                        <input type="number" id="quantity" placeholder="ระบุจำนวน" min="1">
+                    </div>
+                    <div id="error" class="error-text">กรุณากรอกข้อมูลให้ครบ</div>
+                    <button type="submit">บันทึกสินค้าออก</button>
                 </div>
-                <div class="stat-card highlight">
-                    <h3>รายการสินค้าทั้งหมด</h3>
-                    <p id="totalProducts">-</p>
-                </div>
-                <div class="stat-card">
-                    <h3>สินค้าที่ใกล้หมด</h3>
-                    <p id="lowStock" style="color: #ff4d4d;">-</p>
-                </div>
-            </div>
-
-
+            </form>
         </section>
     </main>
 </div>
 
-<script src="dashboard.js"></script>
+<script src="../js/stock-out.js"></script>
 </body>
 </html>

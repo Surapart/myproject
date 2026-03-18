@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สินค้าเข้า | MY STOCK</title>
-    <link rel="stylesheet" href="style.css">
+    <title>สินค้าใกล้หมด | MY STOCK</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
@@ -15,26 +15,25 @@
             <li class="menu-title">Main Menu</li>
             <li><a href="dashboard.html"><span>ภาพรวมระบบ</span></a></li>
             <li><a href="products.html"><span>สินค้าทั้งหมด</span></a></li>
-            <li><a href="lowstock.html"><span>สินค้าใกล้หมด</span></a></li>
+            <li><a href="lowstock.html" class="active"><span>สินค้าใกล้หมด</span></a></li>
 
             <li class="menu-title">Management</li>
             <li><a href="add-product.html"><span>เพิ่มสินค้า</span></a></li>
             <li><a href="edit-product.html"><span>แก้ไขสินค้า</span></a></li>
 
             <li class="menu-title">Warehouse</li>
-            <li><a href="stock-in.html" class="active"><span>สินค้าเข้า</span></a></li>
+            <li><a href="stock-in.html"><span>สินค้าเข้า</span></a></li>
             <li><a href="stock-out.html"><span>สินค้าออก</span></a></li>
             <li><a href="transactions.html"><span>ประวัติการทำรายการ</span></a></li>
 
-            <li class="menu-title">Reports</li>
-            <li><a href="#"><span>รายงานรายวัน</span></a></li>
-            <li><a href="#"><span>รายงานรายเดือน</span></a></li>
+            
+            <li><a href="report.html"><span>รายงาน</span></a></li>
         </ul>
     </aside>
 
     <main class="main">
         <header class="topbar">
-            <div class="page-title"><h2>สินค้าเข้า</h2></div>
+            <div class="page-title"><h2>สินค้าใกล้หมด</h2></div>
             <div class="user-section">
                 <div class="user-pill" onclick="toggleUserMenu()" id="userPill">
                     <div class="user-pill-avatar" id="userAvatar">?</div>
@@ -55,33 +54,31 @@
 
         <section class="content">
             <div class="section-header">
-                <h2 class="section-title">บันทึกสินค้าเข้า</h2>
+                <h2 class="section-title">สินค้าที่ต้องเติมสต็อก</h2>
             </div>
 
-            <form id="stockInForm">
-                <div class="login-card" style="max-width:500px; text-align:left;">
-                    <div class="input-field">
-                        <label>เลือกสินค้า</label>
-                        <select id="product_id">
-                            <option value="">-- เลือกสินค้า --</option>
-                        </select>
-                    </div>
-                    <div class="input-field">
-                        <label>สต็อกปัจจุบัน</label>
-                        <input type="text" id="currentStockDisplay" placeholder="-" disabled style="background:#f9f9f9; color:#aaa;">
-                    </div>
-                    <div class="input-field">
-                        <label>จำนวนที่รับเข้า</label>
-                        <input type="number" id="quantity" placeholder="ระบุจำนวน" min="1">
-                    </div>
-                    <div id="error" class="error-text">กรุณากรอกข้อมูลให้ครบ</div>
-                    <button type="submit">บันทึกสินค้าเข้า</button>
-                </div>
-            </form>
+            <div class="product-table-wrapper">
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ชื่อสินค้า</th>
+                            <th>SKU</th>
+                            <th>หมวดหมู่</th>
+                            <th>คงเหลือ</th>
+                            <th>ขั้นต่ำ</th>
+                            <th>ขาด</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lowstockTable">
+                        <tr><td colspan="7" style="text-align:center; padding:40px; color:#ccc;">กำลังโหลดข้อมูล...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 </div>
 
-<script src="stock-in.js"></script>
+<script src="../js/lowstock.js"></script>
 </body>
 </html>

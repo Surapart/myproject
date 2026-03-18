@@ -8,6 +8,7 @@ const userRoutes        = require('./routes/userRoutes');
 const productRoutes     = require('./routes/productRoutes');
 const categoryRoutes    = require('./routes/categoryRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const reportRoutes      = require('./routes/reportRoutes'); 
 
 const app = express();
 const PORT = 8000;
@@ -21,6 +22,7 @@ app.use('/users',        userRoutes);
 app.use('/products',     productRoutes);
 app.use('/categories',   categoryRoutes);
 app.use('/transactions', transactionRoutes);
+app.use('/reports',      reportRoutes);
 
 // Health check
 app.get('/', (req, res) => res.send('MY STOCK Backend is running'));

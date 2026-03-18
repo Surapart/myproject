@@ -40,7 +40,7 @@ form.addEventListener("submit", async function(e){
         // login success
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        window.location.href = "dashboard.html";
+        window.location.href = "html/dashboard.html";
 
     }catch(error){
 
