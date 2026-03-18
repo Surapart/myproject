@@ -264,7 +264,8 @@ app.delete('/products/:id', async (req, res) => {
 app.get('/categories', async (req, res) => {
     try {
         const [rows] = await conn.query(
-            'SELECT * FROM categories');
+             'SELECT id, name FROM categories'
+        );
         res.json(rows);
     } catch (error) {
         res.status(500).json({
@@ -419,7 +420,7 @@ app.post('/transactions', async (req, res) => {
 app.get('/transactions/:id', async (req, res) => {
     try {
         const [rows] = await conn.query(
-           'SELECT id, product_id, type, quantity FROM stock_transactions WHERE id = ?',
+           'SELECT * FROM stock_transactions WHERE id = ?',
             [req.params.id]
         );
         if (rows.length === 0) {

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แก้ไขสินค้า | MY STOCK</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="logo">MY STOCK</div>
+        <ul class="menu">
+            <li class="menu-title">Main Menu</li>
+            <li><a href="dashboard.html"><span>ภาพรวมระบบ</span></a></li>
+            <li><a href="products.html"><span>สินค้าทั้งหมด</span></a></li>
+            <li><a href="lowstock.html"><span>สินค้าใกล้หมด</span></a></li>
+
+            <li class="menu-title">Management</li>
+            <li><a href="add-product.html"><span>เพิ่มสินค้า</span></a></li>
+            <li><a href="edit-product.html" class="active"><span>แก้ไขสินค้า</span></a></li>
+
+            <li class="menu-title">Warehouse</li>
+            <li><a href="stock-in.html"><span>สินค้าเข้า</span></a></li>
+            <li><a href="stock-out.html"><span>สินค้าออก</span></a></li>
+            <li><a href="transactions.html"><span>ประวัติการทำรายการ</span></a></li>
+
+            <li class="menu-title">Reports</li>
+            <li><a href="#"><span>รายงานรายวัน</span></a></li>
+            <li><a href="#"><span>รายงานรายเดือน</span></a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="page-title"><h2>แก้ไขสินค้า</h2></div>
+            <div class="user-section">
+                <div class="user-pill" onclick="toggleUserMenu()" id="userPill">
+                    <div class="user-pill-avatar" id="userAvatar">?</div>
+                    <div class="user-pill-name" id="username">Loading...</div>
+                    <div class="user-pill-chev" id="userChev">▼</div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="ud-header">
+                            <div class="ud-name" id="udName">-</div>
+                            <div class="ud-email" id="udEmail">-</div>
+                        </div>
+                        <div class="ud-item" onclick="window.location.href='edit-user.html'">✎  แก้ไขข้อมูลส่วนตัว</div>
+                        <div class="ud-divider"></div>
+                        <div class="ud-item ud-logout" onclick="logout()">↩  ออกจากระบบ</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="content">
+            <div class="section-header">
+                <h2 class="section-title">แก้ไขสินค้า</h2>
+            </div>
+
+            <!-- ค้นหาสินค้าก่อน -->
+            <div class="product-table-wrapper" style="margin-bottom:30px;">
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ชื่อสินค้า</th>
+                            <th>SKU</th>
+                            <th>หมวดหมู่</th>
+                            <th>คงเหลือ</th>
+                            <th style="text-align:center;">เลือก</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productList">
+                        <tr><td colspan="6" style="text-align:center; padding:40px; color:#ccc;">กำลังโหลดข้อมูล...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ฟอร์มแก้ไข (ซ่อนไว้ก่อน) -->
+            <div id="editForm" style="display:none;">
+                <div class="login-card" style="max-width:600px; text-align:left;">
+                    <h3 style="margin-bottom:25px; color:#FB6F92;">แก้ไขข้อมูลสินค้า</h3>
+                    <input type="hidden" id="editId">
+                    <div class="input-row">
+                        <div class="input-field">
+                            <label>ชื่อสินค้า</label>
+                            <input type="text" id="editName" placeholder="ชื่อสินค้า">
+                        </div>
+                        <div class="input-field">
+                            <label>SKU</label>
+                            <input type="text" id="editSku" placeholder="SKU">
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <label>หมวดหมู่</label>
+                        <select id="editCategoryId"></select>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <label>สต็อกคงเหลือ</label>
+                            <input type="number" id="editCurrentStock" placeholder="0" min="0">
+                        </div>
+                        <div class="input-field">
+                            <label>สต็อกขั้นต่ำ</label>
+                            <input type="number" id="editMinStock" placeholder="0" min="0">
+                        </div>
+                    </div>
+                    <div id="editError" class="error-text">เกิดข้อผิดพลาด</div>
+                    <div style="display:flex; gap:15px; margin-top:10px;">
+                        <button type="button" onclick="cancelEdit()" style="flex:1; background:#f5f5f5; color:#888; border:none; padding:16px; border-radius:12px; font-size:1rem; font-weight:600; cursor:pointer;">ยกเลิก</button>
+                        <button type="button" onclick="saveEdit()" style="flex:2;">บันทึกการแก้ไข</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="edit-product.js"></script>
+</body>
+</html>

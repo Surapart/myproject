@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สินค้าทั้งหมด | MY STOCK</title>
+    <title>สินค้าใกล้หมด | MY STOCK</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,16 +14,14 @@
         <ul class="menu">
             <li class="menu-title">Main Menu</li>
             <li><a href="dashboard.html"><span>ภาพรวมระบบ</span></a></li>
-            <li><a href="product.html" class="active"><span>สินค้าทั้งหมด</span></a></li>
-            <li><a href="lowstock.html"><span>สินค้าใกล้หมด</span></a></li>
-            
+            <li><a href="products.html"><span>สินค้าทั้งหมด</span></a></li>
+            <li><a href="lowstock.html" class="active"><span>สินค้าใกล้หมด</span></a></li>
+
             <li class="menu-title">Management</li>
             <li><a href="add-product.html"><span>เพิ่มสินค้า</span></a></li>
             <li><a href="edit-product.html"><span>แก้ไขสินค้า</span></a></li>
 
             <li class="menu-title">Warehouse</li>
-            
-            
             <li><a href="stock-in.html"><span>สินค้าเข้า</span></a></li>
             <li><a href="stock-out.html"><span>สินค้าออก</span></a></li>
             <li><a href="transactions.html"><span>ประวัติการทำรายการ</span></a></li>
@@ -36,9 +34,7 @@
 
     <main class="main">
         <header class="topbar">
-            <div class="page-title">
-                <h2>รายการสินค้าทั้งหมด</h2>
-            </div>
+            <div class="page-title"><h2>สินค้าใกล้หมด</h2></div>
             <div class="user-section">
                 <div class="user-pill" onclick="toggleUserMenu()" id="userPill">
                     <div class="user-pill-avatar" id="userAvatar">?</div>
@@ -58,9 +54,8 @@
         </header>
 
         <section class="content">
-            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h2 class="section-title" style="margin-bottom: 0;">คลังสินค้าคงเหลือ</h2>
-                <button class="btn-add" onclick="window.location.href='add-product.html'">+ เพิ่มสินค้าใหม่</button>
+            <div class="section-header">
+                <h2 class="section-title">สินค้าที่ต้องเติมสต็อก</h2>
             </div>
 
             <div class="product-table-wrapper">
@@ -73,17 +68,18 @@
                             <th>หมวดหมู่</th>
                             <th>คงเหลือ</th>
                             <th>ขั้นต่ำ</th>
-                            <th style="text-align: center;">จัดการ</th>
+                            <th>ขาด</th>
                         </tr>
                     </thead>
-                    <tbody id="fullProductTable">
-                        </tbody>
+                    <tbody id="lowstockTable">
+                        <tr><td colspan="7" style="text-align:center; padding:40px; color:#ccc;">กำลังโหลดข้อมูล...</td></tr>
+                    </tbody>
                 </table>
             </div>
         </section>
     </main>
 </div>
 
-<script src="products.js"></script>
+<script src="lowstock.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | MY STOCK</title>
+    <title>แก้ไขข้อมูลส่วนตัว | MY STOCK</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,10 +13,10 @@
         <div class="logo">MY STOCK</div>
         <ul class="menu">
             <li class="menu-title">Main Menu</li>
-            <li><a href="dashboard.html" class="active"><span>ภาพรวมระบบ</span></a></li>
+            <li><a href="dashboard.html"><span>ภาพรวมระบบ</span></a></li>
             <li><a href="products.html"><span>สินค้าทั้งหมด</span></a></li>
             <li><a href="lowstock.html"><span>สินค้าใกล้หมด</span></a></li>
-            
+
             <li class="menu-title">Management</li>
             <li><a href="add-product.html"><span>เพิ่มสินค้า</span></a></li>
             <li><a href="edit-product.html"><span>แก้ไขสินค้า</span></a></li>
@@ -34,9 +34,7 @@
 
     <main class="main">
         <header class="topbar">
-            <div class="page-title">
-                <h2>Dashboard</h2>
-            </div>
+            <div class="page-title"><h2>แก้ไขข้อมูลส่วนตัว</h2></div>
             <div class="user-section">
                 <div class="user-pill" onclick="toggleUserMenu()" id="userPill">
                     <div class="user-pill-avatar" id="userAvatar">?</div>
@@ -47,9 +45,9 @@
                             <div class="ud-name" id="udName">-</div>
                             <div class="ud-email" id="udEmail">-</div>
                         </div>
-                        <div class="ud-item" onclick="window.location.href='edit-user.html'">✎  แก้ไขข้อมูลส่วนตัว</div>
+                        <div class="ud-item" onclick="window.location.href='edit-user.html'">✎ &nbsp;แก้ไขข้อมูลส่วนตัว</div>
                         <div class="ud-divider"></div>
-                        <div class="ud-item ud-logout" onclick="logout()">↩  ออกจากระบบ</div>
+                        <div class="ud-item ud-logout" onclick="logout()">↩ &nbsp;ออกจากระบบ</div>
                     </div>
                 </div>
             </div>
@@ -57,29 +55,39 @@
 
         <section class="content">
             <div class="section-header">
-                <h2 class="section-title">สรุปข้อมูลสต็อก</h2>
+                <h2 class="section-title">แก้ไขข้อมูลส่วนตัว</h2>
             </div>
 
-            <div class="dashboard-cards">
-                <div class="stat-card">
-                    <h3>ผู้ใช้ในระบบ</h3>
-                    <p id="totalUsers">-</p>
+            <div class="login-card" style="max-width:600px; text-align:left;">
+                <input type="hidden" id="editId">
+                <div class="input-row">
+                    <div class="input-field">
+                        <label>ชื่อ</label>
+                        <input type="text" id="editFirstName" placeholder="ชื่อ">
+                    </div>
+                    <div class="input-field">
+                        <label>นามสกุล</label>
+                        <input type="text" id="editLastName" placeholder="นามสกุล">
+                    </div>
                 </div>
-                <div class="stat-card highlight">
-                    <h3>รายการสินค้าทั้งหมด</h3>
-                    <p id="totalProducts">-</p>
+                <div class="input-field">
+                    <label>อีเมล</label>
+                    <input type="email" id="editEmail" placeholder="example@mystock.com">
                 </div>
-                <div class="stat-card">
-                    <h3>สินค้าที่ใกล้หมด</h3>
-                    <p id="lowStock" style="color: #ff4d4d;">-</p>
+                <div class="input-field">
+                    <label>รหัสผ่านใหม่ (เว้นว่างถ้าไม่เปลี่ยน)</label>
+                    <input type="password" id="editPassword" placeholder="••••••••">
+                </div>
+                <div id="editError" class="error-text">เกิดข้อผิดพลาด</div>
+                <div style="display:flex; gap:15px; margin-top:10px;">
+                    <button type="button" onclick="window.history.back()" style="flex:1; background:#f5f5f5; color:#888; border:none; padding:16px; border-radius:12px; font-size:1rem; font-weight:600; cursor:pointer;">ยกเลิก</button>
+                    <button type="button" onclick="saveEdit()" style="flex:1;">บันทึกการแก้ไข</button>
                 </div>
             </div>
-
-
         </section>
     </main>
 </div>
 
-<script src="dashboard.js"></script>
+<script src="edit-user.js"></script>
 </body>
 </html>

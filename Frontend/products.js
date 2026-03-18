@@ -10,23 +10,37 @@ if (!user) {
     if (usernameElement) {
         // ต้องมั่นใจว่าใน localStorage ของหนูใช้ชื่อตัวแปร FirstName และ LastName นะลูก
         usernameElement.innerText = `${user.FirstName} ${user.LastName}`;
+    // Set avatar initials
+    const avatarEl = document.getElementById('userAvatar');
+    if (avatarEl) avatarEl.textContent = (user.FirstName?.[0] || '') + (user.LastName?.[0] || '');
+    const udName = document.getElementById('udName');
+    if (udName) udName.textContent = user.FirstName + ' ' + user.LastName;
+    const udEmail = document.getElementById('udEmail');
+    if (udEmail) udEmail.textContent = user.email || '';
     }
 }
 // 2. โหลดสินค้าเข้าตาราง
 async function loadProducts() {
     try {
-        const res = await fetch("http://localhost:8000/products");
-        const products = await res.json();
+        const [productRes, categoryRes] = await Promise.all([
+            fetch("http://localhost:8000/products"),
+            fetch("http://localhost:8000/categories")
+        ]);
+        const products   = await productRes.json();
+        const categories = await categoryRes.json();
+        const catMap = {};
+        if (Array.isArray(categories)) {
+            categories.forEach(c => { catMap[c.id] = c.name; });
+        }
         const table = document.getElementById("fullProductTable");
 
-        if (!table) return; // กันพังถ้าหา element ไม่เจอ
+        if (!table) return;
 
         table.innerHTML = products.map(p => {
-            // เช็คตัวแปรสต็อก เผื่อ Backend ส่งชื่อไม่เหมือนกัน
             const currentStock = p.current_stock ?? p.Stock ?? 0;
             const minStock = p.min_stock ?? p.MinStock ?? 0;
             const productName = p.name ?? p.ProductName ?? 'ไม่มีชื่อสินค้า';
-            const category = p.category ?? p.Category ?? 'ทั่วไป';
+            const category = catMap[p.category_id] ?? 'ทั่วไป';
 
             return `
                 <tr>
@@ -78,8 +92,20 @@ function logout() {
 
 document.addEventListener("DOMContentLoaded", loadProducts);
 
-// แถม: ฟังก์ชันแก้ไข (เดี๋ยวเผื่อหนูทำหน้าแก้ไขต่อ)
 function editProduct(id) {
-    console.log("กำลังจะแก้ไข ID:", id);
-    // window.location.href = `edit-product.html?id=${id}`; 
+    window.location.href = `edit-product.html?id=${id}`;
 }
+function toggleUserMenu() {
+    const dd = document.getElementById("userDropdown");
+    const chev = document.getElementById("userChev");
+    dd.classList.toggle("open");
+    chev.textContent = dd.classList.contains("open") ? "▲" : "▼";
+}
+
+document.addEventListener("click", function(e) {
+    const pill = document.getElementById("userPill");
+    if (pill && !pill.contains(e.target)) {
+        document.getElementById("userDropdown").classList.remove("open");
+        document.getElementById("userChev").textContent = "▼";
+    }
+});

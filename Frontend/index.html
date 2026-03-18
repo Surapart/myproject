@@ -9,6 +9,8 @@
 <body>
 
 <div class="login-wrapper">
+    <div class="login-blob login-blob-1"></div>
+    <div class="login-blob login-blob-2"></div>
     <div class="login-card">
         <header>
             <div class="brand">MY STOCK</div>
@@ -39,5 +41,14 @@
 </div>
 
 <script src="index.js"></script>
+<script>
+const _w=document.querySelector('.login-wrapper');
+const _c=['#E8B4E8','#FFB3C6','#C9A8E8','#FFCCD5','#D4A8E8'];
+for(let i=0;i<14;i++){
+  const d=document.createElement('div');
+  d.style.cssText=`position:fixed;border-radius:50%;pointer-events:none;z-index:0;animation:loginDotRise linear infinite;width:${Math.random()*5+3}px;height:${Math.random()*5+3}px;left:${Math.random()*100}%;bottom:${Math.random()*30}%;background:${_c[Math.floor(Math.random()*_c.length)]};opacity:0.25;animation-duration:${Math.random()*7+5}s;animation-delay:${Math.random()*5}s;`;
+  _w.appendChild(d);
+}
+</script>
 </body>
 </html>
