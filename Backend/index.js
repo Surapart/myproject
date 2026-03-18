@@ -39,13 +39,13 @@ const validateUser = (userData) => {
     return errors;
 };
 
-//------------users API------------//
+//------------users------------//
 
 // GET users
 app.get('/users', async (req, res) => {
     try {
         const [rows] = await conn.query(
-            'SELECT id, FirstName, LastName, email FROM users'
+            'SELECT * FROM users'
         );
         res.json(rows);
     } catch (error) {
@@ -83,6 +83,8 @@ app.post('/users', async (req, res) => {
     }
 });
 
+//------------users by id------------//
+
 // GET user by id
 app.get('/users/:id', async (req, res) => {
     try {
@@ -114,7 +116,7 @@ app.put('/users/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'แก้ไข user ไม่สำเร็จ',
-            error: err.message
+            error: error.message
         });
     }
 });
@@ -167,7 +169,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-//------------products API------------//
+//------------products------------//
 
 //GET products
 app.get('/products', async (req, res) => {
@@ -212,11 +214,11 @@ app.get('/products/:id', async (req, res) => {
             [req.params.id]
         );
         if (rows.length === 0) {
-            return res.status(500).json({ message: 'ไม่พบ product ' });
+            return res.status(404).json({ message: 'ไม่พบ product ' });
         }
         res.json(rows[0]);
     } catch (error) {
-        res.status(404).json({
+        res.status(500).json({
             message: 'ดึงข้อมูล product ไม่สำเร็จ',
             error: error.message
         });
@@ -247,10 +249,196 @@ app.delete('/products/:id', async (req, res) => {
             'DELETE FROM products WHERE id=?',
             [req.params.id]
         );
-        req.json({ message: 'ลบ product สำเร็จ' });
+        res.json({ message: 'ลบ product สำเร็จ' });
     } catch (error) {
         res.status(500).json({
             message: 'ลบ product ไม่สำเร็จ',
+            error: error.message
+        });
+    }
+});
+
+//------------categories------------//
+
+//GET categories
+app.get('/categories', async (req, res) => {
+    try {
+        const [rows] = await conn.query(
+            'SELECT * FROM categories');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({
+            message: 'ดึงข้อมูล category ไม่สำเร็จ',
+            error: error.message
+        });
+    }
+});
+
+//POST categories
+app.post('/categories', async (req, res) => {
+    const { name } = req.body;
+    try {
+        const [rows] = await conn.query(
+            'INSERT INTO categories (name) VALUES (?)',
+            [name]
+        );
+        res.json({
+            message: 'เพิ่ม category สำเร็จ',
+            data: rows
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'เพิ่ม category ไม่สำเร็จ',
+            error: error.message
+        });
+    }
+})
+
+//GET categories by id
+app.get('/categories/:id', async (req, res) => {
+    try {
+        const [rows] = await conn.query(
+            'SELECT id, name FROM categories WHERE id = ?',
+            [req.params.id]
+        );
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'ไม่พบ categories' });
+        }
+        res.json(rows[0]);
+    } catch (error) {
+        res.status(500).json({
+            message: 'ดึงข้อมูล categories ไม่สำเร็จ',
+            error: error.message
+        });
+    }
+});
+
+//PUT categories by id
+app.put('/categories/:id', async (req, res) => {
+    try {
+        const { name } = req.body;
+        await conn.query(
+            'UPDATE categories SET name=? WHERE id=?',
+            [name, req.params.id]
+        );
+        res.json({ message: 'เเก้ไข categories สำเร็จ' });
+    } catch (error) {
+        res.status(500).json({
+            message: 'เเก้ไข categories ไม่สำเร็จ',
+            error: error.message
+        });
+    }
+});
+
+//DELETE categories by id 
+app.delete('/categories/:id', async (req, res) => {
+    try {
+        await conn.query(
+            'DELETE FROM categories WHERE id=?',
+            [req.params.id]
+        );
+        res.json({ message: 'ลบ categories สำเร็จ' });
+    } catch (error) {
+        res.status(500).json({
+            message: 'ลบ categories ไม่สำเร็จ',
+            error: error.message
+        });
+    }
+});
+
+//---------------transactions---------------//
+
+//GET stock_transactions
+app.get('/transactions', async (req, res) => {
+    try {
+        const [rows] = await conn.query(
+            'SELECT * FROM stock_transactions'
+        );
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({
+            message: 'ดึงข้อมูล transactions ไม่สำเร็จ',
+            error: error.message
+        });
+    }
+});
+
+//POST stock_transactions
+//POST stock_transactions
+app.post('/transactions', async (req, res) => {
+    const { product_id, type, quantity } = req.body;  // ลบบรรทัดซ้ำออก
+    try {
+        // 1. validate
+        if (!product_id || !type || !quantity) {
+            return res.status(400).json({ message: 'กรุณากรอกข้อมูลให้ครบ' });
+        }
+        if (!['IN', 'OUT'].includes(type)) {
+            return res.status(400).json({ message: 'type ต้องเป็น IN หรือ OUT เท่านั้น' });
+        }
+
+        // 2. เช็ค product ว่ามีอยู่จริงและดู stock ปัจจุบัน
+        const [product] = await conn.query(
+            'SELECT current_stock, min_stock, name FROM products WHERE id=?',
+            [product_id]
+        );
+        if (product.length === 0) {
+            return res.status(404).json({ message: 'ไม่พบ product' });
+        }
+
+        // 3. คำนวณ stock ใหม่
+        const newStock = type === 'IN'
+            ? product[0].current_stock + quantity
+            : product[0].current_stock - quantity;
+
+        if (newStock < 0) {
+            return res.status(400).json({ message: 'stock ไม่พอ' });
+        }
+
+        // 4. บันทึก transaction
+        const [rows] = await conn.query(
+            'INSERT INTO stock_transactions (product_id, type, quantity) VALUES (?, ?, ?)',
+            [product_id, type, quantity]
+        );
+
+        // 5. อัปเดต current_stock
+        await conn.query(
+            'UPDATE products SET current_stock=? WHERE id=?',
+            [newStock, product_id]
+        );
+
+        // 6. เช็คว่า stock ใกล้หมดไหม
+        const isLowStock = newStock <= product[0].min_stock;
+
+        res.json({
+            message: `${type} stock สำเร็จ`,
+            data: rows,
+            new_stock: newStock,
+            low_stock_warning: isLowStock
+                ? `⚠️ ${product[0].name} เหลือ ${newStock} ชิ้น ต่ำกว่าขั้นต่ำ (${product[0].min_stock})`
+                : null
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'เพิ่ม transaction ไม่สำเร็จ',
+            error: error.message
+        });
+    }
+});
+
+//GET transactions by id
+app.get('/transactions/:id', async (req, res) => {
+    try {
+        const [rows] = await conn.query(
+           'SELECT id, product_id, type, quantity FROM stock_transactions WHERE id = ?',
+            [req.params.id]
+        );
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'ไม่พบ transactions' });
+        }
+        res.json(rows[0]);
+    } catch (error) {
+        res.status(500).json({
+            message: 'ดึงข้อมูล transactions ไม่สำเร็จ',
             error: error.message
         });
     }
