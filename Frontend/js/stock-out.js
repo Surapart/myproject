@@ -56,7 +56,7 @@ form.addEventListener("submit", async function(e) {
         const res = await fetch("http://localhost:8000/transactions", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ product_id, type: "OUT", quantity })
+            body: JSON.stringify({ product_id, type: "OUT", quantity, user_id: user.id })
         });
         const data = await res.json();
         if (!res.ok) {

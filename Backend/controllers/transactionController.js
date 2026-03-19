@@ -27,7 +27,7 @@ const getTransactionById = async (req, res) => {
 // POST /transactions
 const createTransaction = async (req, res) => {
     try {
-        const { product_id, type, quantity } = req.body;
+        const { product_id, type, quantity, user_id } = req.body;
 
         if (!product_id || !type || !quantity) {
             return res.status(400).json({ message: 'กรุณากรอกข้อมูลให้ครบ' });
@@ -53,8 +53,8 @@ const createTransaction = async (req, res) => {
         }
 
         const [rows] = await getConn().query(
-            'INSERT INTO stock_transactions (product_id, type, quantity) VALUES (?, ?, ?)',
-            [product_id, type, quantity]
+            'INSERT INTO stock_transactions (product_id, type, quantity, user_id) VALUES (?, ?, ?, ?)', 
+            [product_id, type, quantity, user_id] 
         );
         await getConn().query(
             'UPDATE products SET current_stock=? WHERE id=?',

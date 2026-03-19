@@ -18,7 +18,7 @@ let products = [];
 async function loadProducts() {
     try {
         const res = await fetch("http://localhost:8000/products");
-        products  = await res.json();
+        products = await res.json();
         const sel = document.getElementById("product_id");
         const current = sel.value; // จำค่าที่เลือกอยู่
         sel.innerHTML = '<option value="">-- เลือกสินค้า --</option>';
@@ -35,15 +35,15 @@ async function loadProducts() {
     }
 }
 
-const form     = document.getElementById("stockInForm");
+const form = document.getElementById("stockInForm");
 const errorBox = document.getElementById("error");
 
-form.addEventListener("submit", async function(e) {
+form.addEventListener("submit", async function (e) {
     e.preventDefault();
     errorBox.style.display = "none";
 
     const product_id = Number(document.getElementById("product_id").value);
-    const quantity   = Number(document.getElementById("quantity").value);
+    const quantity = Number(document.getElementById("quantity").value);
 
     if (!product_id || !quantity || quantity < 1) {
         errorBox.innerText = "กรุณาเลือกสินค้าและระบุจำนวนอย่างน้อย 1";
@@ -55,7 +55,7 @@ form.addEventListener("submit", async function(e) {
         const res = await fetch("http://localhost:8000/transactions", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ product_id, type: "IN", quantity })
+            body: JSON.stringify({ product_id, type: "IN", quantity, user_id: user.id })
         });
         const data = await res.json();
         if (!res.ok) {
@@ -64,8 +64,8 @@ form.addEventListener("submit", async function(e) {
             return;
         }
         alert(`บันทึกสินค้าเข้าสำเร็จ!\nสต็อกคงเหลือ: ${data.new_stock} ชิ้น`);
-        document.getElementById("product_id").value         = "";
-        document.getElementById("quantity").value           = "";
+        document.getElementById("product_id").value = "";
+        document.getElementById("quantity").value = "";
         document.getElementById("currentStockDisplay").value = "-";
         await loadProducts();
     } catch (err) {
@@ -76,7 +76,7 @@ form.addEventListener("submit", async function(e) {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
-    document.getElementById("product_id").addEventListener("change", function() {
+    document.getElementById("product_id").addEventListener("change", function () {
         const selected = products.find(p => p.id === Number(this.value));
         document.getElementById("currentStockDisplay").value = selected
             ? `${Number(selected.current_stock).toLocaleString()} ชิ้น`
@@ -95,7 +95,7 @@ function toggleUserMenu() {
     chev.textContent = dd.classList.contains("open") ? "▲" : "▼";
 }
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
     const pill = document.getElementById("userPill");
     if (pill && !pill.contains(e.target)) {
         document.getElementById("userDropdown").classList.remove("open");
