@@ -1,6 +1,6 @@
 const { getConn } = require('../config/db');
 
-// GET /reports/daily?date=YYYY-MM-DD
+// GET /reports/daily
 const getDailyReport = async (req, res) => {
     try {
         const date = req.query.date || new Date().toISOString().slice(0, 10);
@@ -36,7 +36,7 @@ const getDailyReport = async (req, res) => {
     }
 };
 
-// GET /reports/monthly?month=MM&year=YYYY
+// GET /reports/monthly
 const getMonthlyReport = async (req, res) => {
     try {
         const now = new Date();
@@ -76,7 +76,7 @@ const getMonthlyReport = async (req, res) => {
     }
 };
 
-// GET /reports/yearly?year=YYYY
+// GET /reports/yearly
 const getYearlyReport = async (req, res) => {
     try {
         const year = req.query.year || new Date().getFullYear();
