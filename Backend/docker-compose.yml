@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0 # ปรับเป็น MySQL 8.0 เพื่อความทันสมัย (หรือใช้ 5.7 ตามเดิมได้หากต้องการ)
+    image: mysql:8.0 
     container_name: mysql_db_700
-    # MySQL 8.0 ใช้ plugin ตัวใหม่ จึงต้องใช้คำสั่งนี้เพื่อให้เข้ากับ Client รุ่นเก่าได้ดีขึ้น
+    
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -21,11 +21,11 @@ services:
     image: phpmyadmin:latest
     container_name: phpmyadmin_700
     environment:
-      PMA_HOST: db # ใช้ชื่อ Service "db" แทนชื่อ Container เพื่อความยืดหยุ่นในระบบ Network
+      PMA_HOST: db
       PMA_PORT: 3306
       PMA_USER: root
       PMA_PASSWORD: root
-      UPLOAD_LIMIT: 64M # เพิ่มลิมิตการอัปโหลดไฟล์ SQL
+      UPLOAD_LIMIT: 64M
     ports:
       - "8701:80"
     depends_on:
